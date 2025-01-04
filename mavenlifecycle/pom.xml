@@ -1,0 +1,73 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.gaurav</groupId>
+  <artifactId>mavenlifecycle</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>mavenlifecycle</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <skipUnitTests>false</skipUnitTests>
+  </properties>
+
+  <dependencies>
+    <!--  https://mvnrepository.com/artifact/org.testng/testng  -->
+	<dependency>
+		<groupId>org.testng</groupId>
+		<artifactId>testng</artifactId>
+		<version>7.10.2</version>
+	</dependency>
+  </dependencies>
+  <build>
+	<plugins>
+		<plugin>
+			<!--pluging to run unit tests-->
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>3.5.2</version>
+			<configuration>
+				<!--This is to skip Unit test
+				while running integration tests.
+				Default value of this variable 
+				is set to false under properties section-->
+				<skipTests>${skipUnitTests}</skipTests>
+			</configuration>
+		</plugin>
+		<plugin>
+			<!--pluging to run integration tests-->
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-failsafe-plugin</artifactId>
+			<version>3.5.2</version>
+			<executions>
+				<execution>
+					<goals>
+						<!--integration-test goal does not fail build even if test(s) fails-->
+						<goal>integration-test</goal>
+						<!--verify goal marks the build as fail if test(s) fails-->
+						<goal>verify</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<!--This plugin takes the files from src/main and convert those in jar-->
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-jar-plugin</artifactId>
+			<version>3.3.0</version>
+			<configuration>
+				<archive>
+					<manifest>
+						<addClasspath>true</addClasspath>
+						<mainClass>com.gaurav.mavenlifecycle.App</mainClass>
+					</manifest>
+				</archive>
+			</configuration>
+			</plugin>
+	</plugins>
+  </build>
+</project>
